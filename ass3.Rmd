@@ -16,7 +16,7 @@ library(readr)
 library(tibble)
 library(prettydoc)
 library(knitr)
-
+library(tidyverse)
 options(scipen = 999)
 ```
 
@@ -31,6 +31,16 @@ options(scipen = 999)
 
 
 # Oppgave 4
+
+```{r gc}
+library(readr)
+g_c <- read_csv("Data/ddf--gapminder--systema_globalis-master/ddf--entities--geo--country.csv")
+as_tibble(g_c)
+```
+
+```{r}
+spec(g_c)
+```
 
 
 # Oppgave 5
