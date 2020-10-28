@@ -1,5 +1,72 @@
 ---
-title: "R Notebook"
-output: html_notebook
+title: "Gapminder"
+subtitle: "Assignment 3 i MSB105 Data Science - innleveringsfrist xx.11.20"
+author: 
+  - Katrine Hope
+  - Karl-Gunnar Severinsen
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    toc: TRUE
 ---
 
+```{r setup, message=FALSE, echo=FALSE, cache=TRUE}
+library(readr)
+library(tibble)
+library(prettydoc)
+library(knitr)
+
+options(scipen = 999)
+```
+
+
+# Oppgave 1
+
+
+# Oppgave 2
+
+
+# Oppgave 3
+
+
+# Oppgave 4
+
+
+# Oppgave 5
+
+
+# Oppgave 6
+
+
+# Oppgave 7
+
+
+# Oppgave 8
+
+
+# Oppgave 9
+
+
+# Oppgave 10
+
+
+# Oppgave 11
+
+
+# Oppgave 12
+
+
+# Oppgave 13
+
+
+# Oppgave 14
+
+
+# Oppgave 15
+
+
+# Oppgave 16
+
+
+# Oppgave 17
