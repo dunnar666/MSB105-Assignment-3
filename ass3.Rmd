@@ -17,18 +17,31 @@ library(tibble)
 library(prettydoc)
 library(knitr)
 library(tidyverse)
+library(dplyr)
 options(scipen = 999)
 ```
 
 
 # Oppgave 1
 
+Filen som heter *ddf--entities--geo-country.csv* er en ren tekstfil uten dataverdier.
+Den inneholder kun beskrivelser av forskjellige variabler.
+Eksempelvis populasjonsforhold, som dødsårsaker, sykdomsforhold (HIV, tuberkulose, etc.), arbeidsforhold (ledighet, yrkesaktive), aldersgrupper).
+Videre er det forskjellige variabler som beskriver lands økonomiske forhold (BNP, landbruk, støtte, osv.)
+
+Kolonnene består av forskjellige beskrivelser, i form av kortere og lengre tekst/nøkkelord.
+
+Hver av de 596 variablene har korresponderende filer som inneholder data.
 
 # Oppgave 2
 
+Filen *ddf--entities--geo--country* inneholder kort beskrivelse av alle verdens land og stater.
+Dette inkluderer informasjon som beskriver hvorvidt landet er anerkjent som et land eller ikke.
+I tillegg ser vi blant annet også hvilken region/verdensdel det tilhører, levestandard, FN-tilhørighet og lokasjon.
 
 # Oppgave 3
 
+Denne filen inneholder kort informasjon om hvilke områder som er definert som FN-regioner.
 
 # Oppgave 4
 
@@ -38,21 +51,61 @@ g_c <- read_csv("Data/ddf--gapminder--systema_globalis-master/ddf--entities--geo
 as_tibble(g_c)
 ```
 
-```{r}
+```{r varspecs}
 spec(g_c)
+```
+
+```{r continents}
+g_c <- g_c %>%
+  mutate(continent = case_when(
+     world_4region == "asia" & un_sdg_region %in% c("un_australia_and_new_zealand", "un_oceania_exc_australia_and_new_zealand") ~ "Oceania",
+    world_4region ==  "asia" & !(un_sdg_region %in% c("un_australia_and_new_zealand", "un_oceania_exc_australia_and_new_zealand")) ~ "Asia",
+    world_4region == "africa" ~ "Africa",
+    world_4region == "americas" ~ "Americas",
+    world_4region ==  "europe" ~ "Europe")
+  ) %>%
+ filter(!is.na(iso3166_1_alpha3))
 ```
 
 
 # Oppgave 5
 
+```{r numcountries}
+length(unique(g_c$country))
+```
+
+Etter at vi forrige oppgave filtrerte datasettet til å ekskludere tidligere og ikke anerkjente land, kommer vi frem til at det i dag er 247 land i verden.
 
 # Oppgave 6
 
+```{r countriespercontinent, message=FALSE}
+g_c %>%
+  group_by(continent) %>%
+  summarise(countries = length(unique(country)))
+```
+
+Her ser vi en flott oversikt over antallet land per kontinent.
 
 # Oppgave 7
 
+```{r}
+lifeExp <- read_csv("Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv",
+col_types = cols(time = col_date(format = "%Y")))
+lifeExp <- lifeExp %>%
+rename(year = time)
+length(unique(lifeExp$geo))
+```
+
 
 # Oppgave 8
+
+```{r}
+g_c <- g_c %>%
+  select(country, name, iso3166_1_alpha3, main_religion_2008, un_sdg_region, world_4region, world_6region) %>%
+  left_join(lifeExp, by = c("country" = "geo")) %>%
+  filter(!(is.na(year) & is.na(life_expectancy_years))) %>%
+  filter(year < "2020-01-01")
+```
 
 
 # Oppgave 9
