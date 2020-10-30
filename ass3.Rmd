@@ -48,7 +48,7 @@ Denne filen inneholder kort informasjon om hvilke områder som er definert som F
 ```{r gc}
 library(readr)
 g_c <- read_csv("Data/ddf--gapminder--systema_globalis-master/ddf--entities--geo--country.csv")
-as_tibble(g_c)
+print(g_c)
 ```
 
 ```{r varspecs}

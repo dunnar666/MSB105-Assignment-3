@@ -226,12 +226,17 @@ code span.ot { color: #007020; }
 <section class="main-content">
 <div id="oppgave-1" class="section level1">
 <h1>Oppgave 1</h1>
+<p>Filen som heter <em>ddf–entities–geo-country.csv</em> er en ren tekstfil uten dataverdier. Den inneholder kun beskrivelser av forskjellige variabler. Eksempelvis populasjonsforhold, som dødsårsaker, sykdomsforhold (HIV, tuberkulose, etc.), arbeidsforhold (ledighet, yrkesaktive), aldersgrupper). Videre er det forskjellige variabler som beskriver lands økonomiske forhold (BNP, landbruk, støtte, osv.)</p>
+<p>Kolonnene består av forskjellige beskrivelser, i form av kortere og lengre tekst/nøkkelord.</p>
+<p>Hver av de 596 variablene har korresponderende filer som inneholder data.</p>
 </div>
 <div id="oppgave-2" class="section level1">
 <h1>Oppgave 2</h1>
+<p>Filen <em>ddf–entities–geo–country</em> inneholder kort beskrivelse av alle verdens land og stater. Dette inkluderer informasjon som beskriver hvorvidt landet er anerkjent som et land eller ikke. I tillegg ser vi blant annet også hvilken region/verdensdel det tilhører, levestandard, FN-tilhørighet og lokasjon.</p>
 </div>
 <div id="oppgave-3" class="section level1">
 <h1>Oppgave 3</h1>
+<p>Denne filen inneholder kort informasjon om hvilke områder som er definert som FN-regioner.</p>
 </div>
 <div id="oppgave-4" class="section level1">
 <h1>Oppgave 4</h1>
@@ -248,7 +253,7 @@ code span.ot { color: #007020; }
 ##   un_state = col_logical()
 ## )
 ## i Use `spec()` for the full column specifications.</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">as_tibble</span>(g_c)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">print</span>(g_c)</span></code></pre></div>
 <pre><code>## # A tibble: 273 x 21
 ##    country g77_and_oecd_co~ income_3groups income_groups `is--country`
 ##    &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;         &lt;lgl&gt;        
@@ -292,18 +297,53 @@ code span.ot { color: #007020; }
 ##   world_4region = col_character(),
 ##   world_6region = col_character()
 ## )</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>g_c &lt;-<span class="st"> </span>g_c <span class="op">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">continent =</span> <span class="kw">case_when</span>(</span>
+<span id="cb7-3"><a href="#cb7-3"></a>     world_4region <span class="op">==</span><span class="st"> &quot;asia&quot;</span> <span class="op">&amp;</span><span class="st"> </span>un_sdg_region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;un_australia_and_new_zealand&quot;</span>, <span class="st">&quot;un_oceania_exc_australia_and_new_zealand&quot;</span>) <span class="op">~</span><span class="st"> &quot;Oceania&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4"></a>    world_4region <span class="op">==</span><span class="st">  &quot;asia&quot;</span> <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>(un_sdg_region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;un_australia_and_new_zealand&quot;</span>, <span class="st">&quot;un_oceania_exc_australia_and_new_zealand&quot;</span>)) <span class="op">~</span><span class="st"> &quot;Asia&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5"></a>    world_4region <span class="op">==</span><span class="st"> &quot;africa&quot;</span> <span class="op">~</span><span class="st"> &quot;Africa&quot;</span>,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    world_4region <span class="op">==</span><span class="st"> &quot;americas&quot;</span> <span class="op">~</span><span class="st"> &quot;Americas&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7"></a>    world_4region <span class="op">==</span><span class="st">  &quot;europe&quot;</span> <span class="op">~</span><span class="st"> &quot;Europe&quot;</span>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(iso3166_<span class="dv">1</span>_alpha3))</span></code></pre></div>
 </div>
 <div id="oppgave-5" class="section level1">
 <h1>Oppgave 5</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">length</span>(<span class="kw">unique</span>(g_c<span class="op">$</span>country))</span></code></pre></div>
+<pre><code>## [1] 247</code></pre>
+<p>Etter at vi forrige oppgave filtrerte datasettet til å ekskludere tidligere og ikke anerkjente land, kommer vi frem til at det i dag er 247 land i verden.</p>
 </div>
 <div id="oppgave-6" class="section level1">
 <h1>Oppgave 6</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>g_c <span class="op">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">group_by</span>(continent) <span class="op">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">countries =</span> <span class="kw">length</span>(<span class="kw">unique</span>(country)))</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   continent countries
+##   &lt;chr&gt;         &lt;int&gt;
+## 1 Africa           59
+## 2 Americas         55
+## 3 Asia             47
+## 4 Europe           58
+## 5 Oceania          28</code></pre>
+<p>Her ser vi en flott oversikt over antallet land per kontinent.</p>
 </div>
 <div id="oppgave-7" class="section level1">
 <h1>Oppgave 7</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>lifeExp &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv&quot;</span>,</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">time =</span> <span class="kw">col_date</span>(<span class="dt">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span>
+<span id="cb12-3"><a href="#cb12-3"></a>lifeExp &lt;-<span class="st"> </span>lifeExp <span class="op">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="kw">rename</span>(<span class="dt">year =</span> time)</span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="kw">length</span>(<span class="kw">unique</span>(lifeExp<span class="op">$</span>geo))</span></code></pre></div>
+<pre><code>## [1] 189</code></pre>
 </div>
 <div id="oppgave-8" class="section level1">
 <h1>Oppgave 8</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>g_c &lt;-<span class="st"> </span>g_c <span class="op">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">select</span>(country, name, iso3166_<span class="dv">1</span>_alpha3, main_religion_<span class="dv">2008</span>, un_sdg_region, world_4region, world_6region) <span class="op">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">left_join</span>(lifeExp, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span> =<span class="st"> &quot;geo&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>(<span class="kw">is.na</span>(year) <span class="op">&amp;</span><span class="st"> </span><span class="kw">is.na</span>(life_expectancy_years))) <span class="op">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw">filter</span>(year <span class="op">&lt;</span><span class="st"> &quot;2020-01-01&quot;</span>)</span></code></pre></div>
 </div>
 <div id="oppgave-9" class="section level1">
 <h1>Oppgave 9</h1>
