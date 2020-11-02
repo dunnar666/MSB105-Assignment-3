@@ -147,36 +147,26 @@ Her kommer vi frem til at de tre landene som kun har observasjoner fra 1970 er; 
 # Oppgave 10
 
 ```{r pop}
-pop <- read_csv("Data/ddf--gapminder--systema_globalis-master/global-regions-datapoints/ddf--datapoints--population_total--by--global--time.csv", 
+pop <- read_csv("Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv", 
     col_types = cols(time = col_date(format = "%Y")))
 ```
 
-```{r global}
-g_c <- g_c %>%
-  mutate(global = case_when(
-     world_4region == "asia" ~ "world",
-     world_4region == "africa" ~ "world",
-     world_4region == "americas" ~ "world",
-     world_4region ==  "europe" ~ "world"))
-```
-
-
 ```{r join_pop}
 g_c <- g_c %>%
-  left_join(pop, by = c("global" = "global", "year" = "time"))
+  left_join(pop, by = c("country" = "geo", "year" = "time"))
 ```
 
 
 # Oppgave 11
 
 ```{r u_pop}
-u_pop <- read_csv("Data/ddf--gapminder--systema_globalis-master/global-regions-datapoints/ddf--datapoints--urban_population--by--global--time.csv", 
+u_pop <- read_csv("Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--urban_population--by--geo--time.csv", 
     col_types = cols(time = col_date(format = "%Y")))
 ```
 
 ```{r join_u_pop}
 g_c <- g_c %>%
-  left_join(u_pop, by = c("global" = "global", "year" = "time"))
+  left_join(u_pop, by = c("country" = "geo", "year" = "time"))
 ```
 
 
