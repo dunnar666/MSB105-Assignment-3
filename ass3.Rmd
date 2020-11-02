@@ -21,13 +21,9 @@ library(dplyr)
 options(scipen = 999)
 ```
 
-
 # Oppgave 1
 
-Filen som heter *ddf--entities--geo-country.csv* er en ren tekstfil uten dataverdier.
-Den inneholder kun beskrivelser av forskjellige variabler.
-Eksempelvis populasjonsforhold, som dødsårsaker, sykdomsforhold (HIV, tuberkulose, etc.), arbeidsforhold (ledighet, yrkesaktive), aldersgrupper).
-Videre er det forskjellige variabler som beskriver lands økonomiske forhold (BNP, landbruk, støtte, osv.)
+Filen som heter *ddf--entities--geo-country.csv* er en ren tekstfil uten dataverdier. Den inneholder kun beskrivelser av forskjellige variabler. Eksempelvis populasjonsforhold, som dødsårsaker, sykdomsforhold (HIV, tuberkulose, etc.), arbeidsforhold (ledighet, yrkesaktive), aldersgrupper). Videre er det forskjellige variabler som beskriver lands økonomiske forhold (BNP, landbruk, støtte, osv.)
 
 Kolonnene består av forskjellige beskrivelser, i form av kortere og lengre tekst/nøkkelord.
 
@@ -35,9 +31,7 @@ Hver av de 596 variablene har korresponderende filer som inneholder data.
 
 # Oppgave 2
 
-Filen *ddf--entities--geo--country* inneholder kort beskrivelse av alle verdens land og stater.
-Dette inkluderer informasjon som beskriver hvorvidt landet er anerkjent som et land eller ikke.
-I tillegg ser vi blant annet også hvilken region/verdensdel det tilhører, levestandard, FN-tilhørighet og lokasjon.
+Filen *ddf--entities--geo--country* inneholder kort beskrivelse av alle verdens land og stater. Dette inkluderer informasjon som beskriver hvorvidt landet er anerkjent som et land eller ikke. I tillegg ser vi blant annet også hvilken region/verdensdel det tilhører, levestandard, FN-tilhørighet og lokasjon.
 
 # Oppgave 3
 
@@ -67,14 +61,13 @@ g_c <- g_c %>%
  filter(!is.na(iso3166_1_alpha3))
 ```
 
-
 # Oppgave 5
 
 ```{r numcountries}
 length(unique(g_c$country))
 ```
 
-Etter at vi forrige oppgave filtrerte datasettet til å ekskludere tidligere og ikke anerkjente land, kommer vi frem til at det i dag er 247 land i verden.
+Etter at vi i forrige oppgave filtrerte datasettet til å ekskludere tidligere og ikke anerkjente land, kommer vi frem til at det i dag er 247 land i verden.
 
 # Oppgave 6
 
@@ -88,7 +81,9 @@ Her ser vi en flott oversikt over antallet land per kontinent.
 
 # Oppgave 7
 
-```{r}
+Ved å opprette datasettet *lifeExp* kan vi se på hvor mange land som inneholder opplysninger om forventet levealder.
+
+```{r lifeexp}
 lifeExp <- read_csv("Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv",
 col_types = cols(time = col_date(format = "%Y")))
 lifeExp <- lifeExp %>%
@@ -96,10 +91,11 @@ rename(year = time)
 length(unique(lifeExp$geo))
 ```
 
+Vi kommer frem til at det er 189 land som har denne opplysningen.
 
 # Oppgave 8
 
-```{r}
+```{r join_lifeexp}
 g_c <- g_c %>%
   select(country, name, iso3166_1_alpha3, main_religion_2008, un_sdg_region, world_4region, world_6region) %>%
   left_join(lifeExp, by = c("country" = "geo")) %>%
@@ -108,28 +104,75 @@ g_c <- g_c %>%
 ```
 
 
+
 # Oppgave 9
 
+```{r year_min}
+g_c_min <- g_c %>%
+  group_by(country) %>%
+  summarise(min_year = min(year)) 
+
+g_c_min %>%
+  count(min_year = g_c_min$min_year)
+```
+
+Over har vi benyttet *count*-funksjonen til å telle opp antallet observasjoner rangert etter tidligste år.
+Vi finner to årstall, 1800 og 1970, med henholdsvis 186 og 3 observasjoner.
+
+Under får vi samme oversikten ved hjelp av *table*-funksjonen.
+
+```{r}
+table(g_c_min$min_year)
+```
+
+For å finne de 3 landene der observasjonene starter i 1970, går vi frem på følgende måte.
+
+```{r}
+g_c_min %>%
+  filter(min_year == "1970-01-01")
+```
+
+Vi må nå flette inn informasjon fra *g_c* for å kunne sette navn på kodene ovenfor.
+
+```{r}
+g_c_min <- g_c_min %>%
+  left_join(g_c,
+            by = "country") %>%
+  filter(min_year == "1970-01-01")
+
+tibble(country = unique(g_c_min$name))
+```
+
+Her kommer vi frem til at de tre landene som kun har observasjoner fra 1970 er; *Andorra*, *Dominica* og *Marshall Islands*.
 
 # Oppgave 10
+
 
 
 # Oppgave 11
 
 
+
 # Oppgave 12
+
 
 
 # Oppgave 13
 
 
+
 # Oppgave 14
+
 
 
 # Oppgave 15
 
 
+
 # Oppgave 16
 
 
+
 # Oppgave 17
+
+
