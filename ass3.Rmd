@@ -97,17 +97,16 @@ Vi kommer frem til at det er 189 land som har denne opplysningen.
 
 ```{r join_lifeexp}
 g_c <- g_c %>%
-  select(country, name, iso3166_1_alpha3, main_religion_2008, un_sdg_region, world_4region, world_6region) %>%
+  select(country, name, iso3166_1_alpha3, main_religion_2008, un_sdg_region, world_4region, continent, world_6region) %>%
   left_join(lifeExp, by = c("country" = "geo")) %>%
   filter(!(is.na(year) & is.na(life_expectancy_years))) %>%
   filter(year < "2020-01-01")
 ```
 
 
-
 # Oppgave 9
 
-```{r year_min}
+```{r year_min, message=FALSE}
 g_c_min <- g_c %>%
   group_by(country) %>%
   summarise(min_year = min(year)) 
@@ -121,20 +120,20 @@ Vi finner to årstall, 1800 og 1970, med henholdsvis 186 og 3 observasjoner.
 
 Under får vi samme oversikten ved hjelp av *table*-funksjonen.
 
-```{r}
+```{r alt_year_min}
 table(g_c_min$min_year)
 ```
 
 For å finne de 3 landene der observasjonene starter i 1970, går vi frem på følgende måte.
 
-```{r}
+```{r 1970}
 g_c_min %>%
   filter(min_year == "1970-01-01")
 ```
 
 Vi må nå flette inn informasjon fra *g_c* for å kunne sette navn på kodene ovenfor.
 
-```{r}
+```{r name_1970}
 g_c_min <- g_c_min %>%
   left_join(g_c,
             by = "country") %>%
@@ -147,18 +146,61 @@ Her kommer vi frem til at de tre landene som kun har observasjoner fra 1970 er; 
 
 # Oppgave 10
 
+```{r pop}
+pop <- read_csv("Data/ddf--gapminder--systema_globalis-master/global-regions-datapoints/ddf--datapoints--population_total--by--global--time.csv", 
+    col_types = cols(time = col_date(format = "%Y")))
+```
+
+```{r global}
+g_c <- g_c %>%
+  mutate(global = case_when(
+     world_4region == "asia" ~ "world",
+     world_4region == "africa" ~ "world",
+     world_4region == "americas" ~ "world",
+     world_4region ==  "europe" ~ "world"))
+```
+
+
+```{r join_pop}
+g_c <- g_c %>%
+  left_join(pop, by = c("global" = "global", "year" = "time"))
+```
 
 
 # Oppgave 11
 
+```{r u_pop}
+u_pop <- read_csv("Data/ddf--gapminder--systema_globalis-master/global-regions-datapoints/ddf--datapoints--urban_population--by--global--time.csv", 
+    col_types = cols(time = col_date(format = "%Y")))
+```
+
+```{r join_u_pop}
+g_c <- g_c %>%
+  left_join(u_pop, by = c("global" = "global", "year" = "time"))
+```
 
 
 # Oppgave 12
 
+```{r gdp_pc}
+gdp_pc <- read_csv("Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv", 
+    col_types = cols(time = col_date(format = "%Y")))
+```
 
+```{r join_gdp_pc}
+g_c <- g_c %>%
+  left_join(gdp_pc, by = c("country" = "geo", "year" = "time"))
+```
+
+```{r names_g_c}
+names(g_c)
+```
 
 # Oppgave 13
 
+```{r}
+
+```
 
 
 # Oppgave 14
