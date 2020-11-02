@@ -101,6 +101,8 @@ g_c <- g_c %>%
   left_join(lifeExp, by = c("country" = "geo")) %>%
   filter(!(is.na(year) & is.na(life_expectancy_years))) %>%
   filter(year < "2020-01-01")
+
+rm(lifeExp)
 ```
 
 
@@ -140,6 +142,8 @@ g_c_min <- g_c_min %>%
   filter(min_year == "1970-01-01")
 
 tibble(country = unique(g_c_min$name))
+
+rm(g_c_min)
 ```
 
 Her kommer vi frem til at de tre landene som kun har observasjoner fra 1970 er; *Andorra*, *Dominica* og *Marshall Islands*.
@@ -154,6 +158,8 @@ pop <- read_csv("Data/ddf--gapminder--systema_globalis-master/countries-etc-data
 ```{r join_pop}
 g_c <- g_c %>%
   left_join(pop, by = c("country" = "geo", "year" = "time"))
+
+rm(pop)
 ```
 
 
@@ -167,6 +173,8 @@ u_pop <- read_csv("Data/ddf--gapminder--systema_globalis-master/countries-etc-da
 ```{r join_u_pop}
 g_c <- g_c %>%
   left_join(u_pop, by = c("country" = "geo", "year" = "time"))
+
+rm(u_pop)
 ```
 
 
@@ -180,6 +188,8 @@ gdp_pc <- read_csv("Data/ddf--gapminder--systema_globalis-master/countries-etc-d
 ```{r join_gdp_pc}
 g_c <- g_c %>%
   left_join(gdp_pc, by = c("country" = "geo", "year" = "time"))
+
+rm(gdp_pc)
 ```
 
 ```{r names_g_c}
@@ -198,7 +208,6 @@ g_c <- g_c %>%
 ```{r}
 my_gapminder_1962 <- g_c %>%
   select(name, continent, year, lifeExp, pop, gdpPercap)
-  
 ```
 
 

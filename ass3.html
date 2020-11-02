@@ -16,19 +16,16 @@
 
 <title>Gapminder</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
   }
 });
 </script>
@@ -75,19 +72,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -107,7 +103,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -240,8 +236,8 @@ code span.ot { color: #007020; }
 </div>
 <div id="oppgave-4" class="section level1">
 <h1>Oppgave 4</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>g_c &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/ddf--entities--geo--country.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/ddf--entities--geo--country.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## -- Column specification --------------------------------------------------------
 ## cols(
@@ -253,7 +249,7 @@ code span.ot { color: #007020; }
 ##   un_state = col_logical()
 ## )
 ## i Use `spec()` for the full column specifications.</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">print</span>(g_c)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g_c)</span></code></pre></div>
 <pre><code>## # A tibble: 273 x 21
 ##    country g77_and_oecd_co~ income_3groups income_groups `is--country`
 ##    &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;         &lt;lgl&gt;        
@@ -273,7 +269,7 @@ code span.ot { color: #007020; }
 ## #   main_religion_2008 &lt;chr&gt;, name &lt;chr&gt;, un_sdg_ldc &lt;chr&gt;,
 ## #   un_sdg_region &lt;chr&gt;, un_state &lt;lgl&gt;, unicef_region &lt;chr&gt;,
 ## #   unicode_region_subtag &lt;chr&gt;, world_4region &lt;chr&gt;, world_6region &lt;chr&gt;</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">spec</span>(g_c)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span>(g_c)</span></code></pre></div>
 <pre><code>## cols(
 ##   country = col_character(),
 ##   g77_and_oecd_countries = col_character(),
@@ -297,27 +293,27 @@ code span.ot { color: #007020; }
 ##   world_4region = col_character(),
 ##   world_6region = col_character()
 ## )</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>g_c &lt;-<span class="st"> </span>g_c <span class="op">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">continent =</span> <span class="kw">case_when</span>(</span>
-<span id="cb7-3"><a href="#cb7-3"></a>     world_4region <span class="op">==</span><span class="st"> &quot;asia&quot;</span> <span class="op">&amp;</span><span class="st"> </span>un_sdg_region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;un_australia_and_new_zealand&quot;</span>, <span class="st">&quot;un_oceania_exc_australia_and_new_zealand&quot;</span>) <span class="op">~</span><span class="st"> &quot;Oceania&quot;</span>,</span>
-<span id="cb7-4"><a href="#cb7-4"></a>    world_4region <span class="op">==</span><span class="st">  &quot;asia&quot;</span> <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span>(un_sdg_region <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;un_australia_and_new_zealand&quot;</span>, <span class="st">&quot;un_oceania_exc_australia_and_new_zealand&quot;</span>)) <span class="op">~</span><span class="st"> &quot;Asia&quot;</span>,</span>
-<span id="cb7-5"><a href="#cb7-5"></a>    world_4region <span class="op">==</span><span class="st"> &quot;africa&quot;</span> <span class="op">~</span><span class="st"> &quot;Africa&quot;</span>,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>    world_4region <span class="op">==</span><span class="st"> &quot;americas&quot;</span> <span class="op">~</span><span class="st"> &quot;Americas&quot;</span>,</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    world_4region <span class="op">==</span><span class="st">  &quot;europe&quot;</span> <span class="op">~</span><span class="st"> &quot;Europe&quot;</span>)</span>
-<span id="cb7-8"><a href="#cb7-8"></a>  ) <span class="op">%&gt;%</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(iso3166_<span class="dv">1</span>_alpha3))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>     world_4region <span class="sc">==</span> <span class="st">&quot;asia&quot;</span> <span class="sc">&amp;</span> un_sdg_region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;un_australia_and_new_zealand&quot;</span>, <span class="st">&quot;un_oceania_exc_australia_and_new_zealand&quot;</span>) <span class="sc">~</span> <span class="st">&quot;Oceania&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    world_4region <span class="sc">==</span>  <span class="st">&quot;asia&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span>(un_sdg_region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;un_australia_and_new_zealand&quot;</span>, <span class="st">&quot;un_oceania_exc_australia_and_new_zealand&quot;</span>)) <span class="sc">~</span> <span class="st">&quot;Asia&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    world_4region <span class="sc">==</span> <span class="st">&quot;africa&quot;</span> <span class="sc">~</span> <span class="st">&quot;Africa&quot;</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    world_4region <span class="sc">==</span> <span class="st">&quot;americas&quot;</span> <span class="sc">~</span> <span class="st">&quot;Americas&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    world_4region <span class="sc">==</span>  <span class="st">&quot;europe&quot;</span> <span class="sc">~</span> <span class="st">&quot;Europe&quot;</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(iso3166_1_alpha3))</span></code></pre></div>
 </div>
 <div id="oppgave-5" class="section level1">
 <h1>Oppgave 5</h1>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">length</span>(<span class="kw">unique</span>(g_c<span class="op">$</span>country))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(g_c<span class="sc">$</span>country))</span></code></pre></div>
 <pre><code>## [1] 247</code></pre>
-<p>Etter at vi forrige oppgave filtrerte datasettet til å ekskludere tidligere og ikke anerkjente land, kommer vi frem til at det i dag er 247 land i verden.</p>
+<p>Etter at vi i forrige oppgave filtrerte datasettet til å ekskludere tidligere og ikke anerkjente land, kommer vi frem til at det i dag er 247 land i verden.</p>
 </div>
 <div id="oppgave-6" class="section level1">
 <h1>Oppgave 6</h1>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>g_c <span class="op">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">group_by</span>(continent) <span class="op">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">countries =</span> <span class="kw">length</span>(<span class="kw">unique</span>(country)))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(continent) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">countries =</span> <span class="fu">length</span>(<span class="fu">unique</span>(country)))</span></code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   continent countries
 ##   &lt;chr&gt;         &lt;int&gt;
@@ -330,35 +326,103 @@ code span.ot { color: #007020; }
 </div>
 <div id="oppgave-7" class="section level1">
 <h1>Oppgave 7</h1>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>lifeExp &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv&quot;</span>,</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">time =</span> <span class="kw">col_date</span>(<span class="dt">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span>
-<span id="cb12-3"><a href="#cb12-3"></a>lifeExp &lt;-<span class="st"> </span>lifeExp <span class="op">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="kw">rename</span>(<span class="dt">year =</span> time)</span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="kw">length</span>(<span class="kw">unique</span>(lifeExp<span class="op">$</span>geo))</span></code></pre></div>
+<p>Ved å opprette datasettet <em>lifeExp</em> kan vi se på hvor mange land som inneholder opplysninger om forventet levealder.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lifeExp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--life_expectancy_years--by--geo--time.csv&quot;</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>lifeExp <span class="ot">&lt;-</span> lifeExp <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(<span class="at">year =</span> time)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(lifeExp<span class="sc">$</span>geo))</span></code></pre></div>
 <pre><code>## [1] 189</code></pre>
+<p>Vi kommer frem til at det er 189 land som har denne opplysningen.</p>
 </div>
 <div id="oppgave-8" class="section level1">
 <h1>Oppgave 8</h1>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>g_c &lt;-<span class="st"> </span>g_c <span class="op">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">select</span>(country, name, iso3166_<span class="dv">1</span>_alpha3, main_religion_<span class="dv">2008</span>, un_sdg_region, world_4region, world_6region) <span class="op">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">left_join</span>(lifeExp, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span> =<span class="st"> &quot;geo&quot;</span>)) <span class="op">%&gt;%</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>(<span class="kw">is.na</span>(year) <span class="op">&amp;</span><span class="st"> </span><span class="kw">is.na</span>(life_expectancy_years))) <span class="op">%&gt;%</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw">filter</span>(year <span class="op">&lt;</span><span class="st"> &quot;2020-01-01&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, name, iso3166_1_alpha3, main_religion_2008, un_sdg_region, world_4region, continent, world_6region) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(lifeExp, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(<span class="fu">is.na</span>(year) <span class="sc">&amp;</span> <span class="fu">is.na</span>(life_expectancy_years))) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&lt;</span> <span class="st">&quot;2020-01-01&quot;</span>)</span></code></pre></div>
 </div>
 <div id="oppgave-9" class="section level1">
 <h1>Oppgave 9</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>g_c_min <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">min_year =</span> <span class="fu">min</span>(year)) </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>g_c_min <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">min_year =</span> g_c_min<span class="sc">$</span>min_year)</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   min_year       n
+##   &lt;date&gt;     &lt;int&gt;
+## 1 1800-01-01   186
+## 2 1970-01-01     3</code></pre>
+<p>Over har vi benyttet <em>count</em>-funksjonen til å telle opp antallet observasjoner rangert etter tidligste år. Vi finner to årstall, 1800 og 1970, med henholdsvis 186 og 3 observasjoner.</p>
+<p>Under får vi samme oversikten ved hjelp av <em>table</em>-funksjonen.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(g_c_min<span class="sc">$</span>min_year)</span></code></pre></div>
+<pre><code>## 
+## 1800-01-01 1970-01-01 
+##        186          3</code></pre>
+<p>For å finne de 3 landene der observasjonene starter i 1970, går vi frem på følgende måte.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>g_c_min <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(min_year <span class="sc">==</span> <span class="st">&quot;1970-01-01&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   country min_year  
+##   &lt;chr&gt;   &lt;date&gt;    
+## 1 and     1970-01-01
+## 2 dma     1970-01-01
+## 3 mhl     1970-01-01</code></pre>
+<p>Vi må nå flette inn informasjon fra <em>g_c</em> for å kunne sette navn på kodene ovenfor.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>g_c_min <span class="ot">&lt;-</span> g_c_min <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(g_c,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">&quot;country&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(min_year <span class="sc">==</span> <span class="st">&quot;1970-01-01&quot;</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">country =</span> <span class="fu">unique</span>(g_c_min<span class="sc">$</span>name))</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 1
+##   country         
+##   &lt;chr&gt;           
+## 1 Andorra         
+## 2 Dominica        
+## 3 Marshall Islands</code></pre>
+<p>Her kommer vi frem til at de tre landene som kun har observasjoner fra 1970 er; <em>Andorra</em>, <em>Dominica</em> og <em>Marshall Islands</em>.</p>
 </div>
 <div id="oppgave-10" class="section level1">
 <h1>Oppgave 10</h1>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv&quot;</span>, </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pop, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span></code></pre></div>
 </div>
 <div id="oppgave-11" class="section level1">
 <h1>Oppgave 11</h1>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>u_pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--urban_population--by--geo--time.csv&quot;</span>, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(u_pop, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span></code></pre></div>
 </div>
 <div id="oppgave-12" class="section level1">
 <h1>Oppgave 12</h1>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>gdp_pc <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv&quot;</span>, </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gdp_pc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(g_c)</span></code></pre></div>
+<pre><code>##  [1] &quot;country&quot;                            &quot;name&quot;                              
+##  [3] &quot;iso3166_1_alpha3&quot;                   &quot;main_religion_2008&quot;                
+##  [5] &quot;un_sdg_region&quot;                      &quot;world_4region&quot;                     
+##  [7] &quot;continent&quot;                          &quot;world_6region&quot;                     
+##  [9] &quot;year&quot;                               &quot;life_expectancy_years&quot;             
+## [11] &quot;population_total&quot;                   &quot;urban_population&quot;                  
+## [13] &quot;gdppercapita_us_inflation_adjusted&quot;</code></pre>
 </div>
 <div id="oppgave-13" class="section level1">
 <h1>Oppgave 13</h1>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;lifeExp&quot;</span> <span class="ot">=</span> <span class="st">&quot;life_expectancy_years&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;pop&quot;</span> <span class="ot">=</span> <span class="st">&quot;population_total&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;gdpPercap&quot;</span> <span class="ot">=</span> <span class="st">&quot;gdppercapita_us_inflation_adjusted&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>my_gapminder_1962 <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, continent, year, lifeExp, pop, gdpPercap)</span></code></pre></div>
 </div>
 <div id="oppgave-14" class="section level1">
 <h1>Oppgave 14</h1>
