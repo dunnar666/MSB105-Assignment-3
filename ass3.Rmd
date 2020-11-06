@@ -207,26 +207,15 @@ g_c <- g_c %>%
 
 
 
-```{r}
-t1 <- seq(1962, 2017, by = 5, "01-01", as.Date("%Y-%m-%d")) %>%
-  parse_date("1962-01-01", "%Y-%m-%d") 
-```
+```{r my_gapminder}
+t1 <- paste(seq(1962, 2017, by = 5), "01-01", sep = "-") %>% parse_date(format = "%Y-%m-%d")
 
-
-  
-```{r}
 my_gapminder <- g_c %>%
   filter(year %in% t1) %>%
   select(name, continent, year, lifeExp, pop, gdpPercap) %>%
   rename("country" = "name")
-  filter()
-```
 
-
-
-```{r}
-gapminder <- gapminder::gapminder
-
+dim(my_gapminder)
 ```
 
 
