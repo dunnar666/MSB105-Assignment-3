@@ -235,6 +235,65 @@ kable()
 
 # Oppgave 15
 
+```{r}
+my_gapminder_1987 <- my_gapminder %>%
+  group_by(country) %>% 
+  filter(!is.na(gdpPercap)) %>%
+  filter(year == "1987-01-01")
+
+length(unique(my_gapminder_1987$country))
+
+```
+
+
+```{r}
+my_gapminder_2017 <- my_gapminder %>%
+  group_by(country) %>% 
+  filter(!is.na(gdpPercap)) %>%
+  filter(year == "2017-01-01")
+
+length(unique(my_gapminder_2017$country))
+
+```
+
+```{r}
+my_gapminder_1962 %>% 
+ggplot(my_gapminder_1962 , 
+             mapping = aes(x = gdpPercap, 
+                           y = lifeExp, 
+                           size = pop,
+                           colour = continent)) +
+  geom_point() +
+  ggtitle("1962-01-01") +
+  theme(legend.position = "bottom")
+  
+```
+
+```{r}
+my_gapminder_1987 %>% 
+ggplot(my_gapminder_1987 , 
+             mapping = aes(x = gdpPercap, 
+                           y = lifeExp, 
+                           size = pop,
+                           colour = continent)) +
+  geom_point() +
+  ggtitle("1987-01-01") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+my_gapminder_2017 %>% 
+ggplot(my_gapminder_2017 , 
+             mapping = aes(x = gdpPercap, 
+                           y = lifeExp, 
+                           size = pop,
+                           colour = continent)) +
+  geom_point() +
+  ggtitle("2017-01-01") +
+  theme(legend.position = "bottom")
+```
+
+
 # Oppgave 16
 
 # Oppgave 17
