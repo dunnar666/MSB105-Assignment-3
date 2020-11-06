@@ -296,4 +296,48 @@ ggplot(my_gapminder_2017 ,
 
 # Oppgave 16
 
+```{r}
+my_gapminder_1962 %>% 
+ggplot(my_gapminder_1962 , 
+             mapping = aes(x = log(gdpPercap), 
+                           y = lifeExp, 
+                           size = pop,
+                           colour = continent)) +
+  geom_point() +
+  coord_cartesian(xlim = c(5, 12), ylim = c(30, 100)) +
+  ggtitle("1962-01-01") +
+  theme(legend.position = "bottom")
+```
+
+
+```{r}
+my_gapminder_1987 %>% 
+ggplot(my_gapminder_1987 , 
+             mapping = aes(x = log(gdpPercap), 
+                           y = lifeExp, 
+                           size = pop,
+                           colour = continent)) +
+  geom_point() +
+  coord_cartesian(xlim = c(5, 12), ylim = c(30, 100)) +
+  ggtitle("1987-01-01") +
+  theme(legend.position = "bottom")
+```
+
+
+```{r}
+my_gapminder_2017 %>% 
+ggplot(my_gapminder_2017 , 
+             mapping = aes(x = log(gdpPercap), 
+                           y = lifeExp, 
+                           size = pop,
+                           colour = continent)) +
+  geom_point() +
+  coord_cartesian(xlim = c(5, 12), ylim = c(30, 100)) +
+  ggtitle("2017-01-01") +
+  theme(legend.position = "bottom")
+```
+
+
 # Oppgave 17
+
+
