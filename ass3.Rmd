@@ -235,28 +235,8 @@ kable()
 
 # Oppgave 15
 
-```{r}
-my_gapminder_1987 <- my_gapminder %>%
-  group_by(country) %>% 
-  filter(!is.na(gdpPercap)) %>%
-  filter(year == "1987-01-01")
 
-length(unique(my_gapminder_1987$country))
-
-```
-
-
-```{r}
-my_gapminder_2017 <- my_gapminder %>%
-  group_by(country) %>% 
-  filter(!is.na(gdpPercap)) %>%
-  filter(year == "2017-01-01")
-
-length(unique(my_gapminder_2017$country))
-
-```
-
-```{r}
+```{r ggplot_gapminder_1962}
 my_gapminder_1962 %>% 
 ggplot(my_gapminder_1962 , 
              mapping = aes(x = gdpPercap, 
@@ -269,7 +249,14 @@ ggplot(my_gapminder_1962 ,
   
 ```
 
-```{r}
+```{r ggplot_gapminder_1987}
+my_gapminder_1987 <- my_gapminder %>%
+  group_by(country) %>% 
+  filter(!is.na(gdpPercap)) %>%
+  filter(year == "1987-01-01")
+
+length(unique(my_gapminder_1987$country))
+
 my_gapminder_1987 %>% 
 ggplot(my_gapminder_1987 , 
              mapping = aes(x = gdpPercap, 
@@ -281,7 +268,14 @@ ggplot(my_gapminder_1987 ,
   theme(legend.position = "bottom")
 ```
 
-```{r}
+```{r ggplot_gapminder_2017}
+my_gapminder_2017 <- my_gapminder %>%
+  group_by(country) %>% 
+  filter(!is.na(gdpPercap)) %>%
+  filter(year == "2017-01-01")
+
+length(unique(my_gapminder_2017$country))
+
 my_gapminder_2017 %>% 
 ggplot(my_gapminder_2017 , 
              mapping = aes(x = gdpPercap, 
@@ -296,7 +290,7 @@ ggplot(my_gapminder_2017 ,
 
 # Oppgave 16
 
-```{r}
+```{r ggplot_gapminder_log_1962}
 my_gapminder_1962 %>% 
 ggplot(my_gapminder_1962 , 
              mapping = aes(x = log(gdpPercap), 
@@ -310,7 +304,7 @@ ggplot(my_gapminder_1962 ,
 ```
 
 
-```{r}
+```{r ggplot_gapminder_log_1987}
 my_gapminder_1987 %>% 
 ggplot(my_gapminder_1987 , 
              mapping = aes(x = log(gdpPercap), 
@@ -324,7 +318,7 @@ ggplot(my_gapminder_1987 ,
 ```
 
 
-```{r}
+```{r ggplot_gapminder_log_2017}
 my_gapminder_2017 %>% 
 ggplot(my_gapminder_2017 , 
              mapping = aes(x = log(gdpPercap), 
@@ -340,4 +334,4 @@ ggplot(my_gapminder_2017 ,
 
 # Oppgave 17
 
-
+Vi kan se at forventet levealder har økt jevnt siden 1962, spesielt kan vi se at Asia har hatt en signifikant økning i levealder. Brutto nasjonal produkt kan vi også se har stort sett hatt en økning på kontinentene. Europa har høyest BNP og har hatt veldig jevn vekst. Vi kan også se at Asia har hatt høyest økning i BNP, men også levealder. 
