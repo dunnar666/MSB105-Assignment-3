@@ -187,17 +187,17 @@ code span.ot { color: #007020; }
 <section class="main-content">
 <div id="oppgave-1" class="section level1">
 <h1>Oppgave 1</h1>
-<p>Filen som heter <em>ddf–entities–geo-country.csv</em> er en ren tekstfil uten dataverdier. Den inneholder kun beskrivelser av forskjellige variabler. Eksempelvis populasjonsforhold, som dødsårsaker, sykdomsforhold (HIV, tuberkulose, etc.), arbeidsforhold (ledighet, yrkesaktive), aldersgrupper). Videre er det forskjellige variabler som beskriver lands økonomiske forhold (BNP, landbruk, støtte, osv.)</p>
+<p>Filen som heter <em>ddf–concepts.csv</em> er en ren tekstfil uten dataverdier. Den inneholder kun beskrivelser av forskjellige variabler. Eksempelvis populasjonsforhold, som dødsårsaker, sykdomsforhold (HIV, tuberkulose, etc.), arbeidsforhold (ledighet, yrkesaktive), aldersgrupper). Videre er det forskjellige variabler som beskriver lands økonomiske forhold (BNP, landbruk, støtte, osv.)</p>
 <p>Kolonnene består av forskjellige beskrivelser, i form av kortere og lengre tekst/nøkkelord.</p>
 <p>Hver av de 596 variablene har korresponderende filer som inneholder data.</p>
 </div>
 <div id="oppgave-2" class="section level1">
 <h1>Oppgave 2</h1>
-<p>Filen <em>ddf–entities–geo–country</em> inneholder kort beskrivelse av alle verdens land og stater. Dette inkluderer informasjon som beskriver hvorvidt landet er anerkjent som et land eller ikke. I tillegg ser vi blant annet også hvilken region/verdensdel det tilhører, levestandard, FN-tilhørighet og lokasjon.</p>
+<p>Filen <em>ddf–entities–geo–country.csv</em> inneholder kort beskrivelse av alle verdens land og stater. Dette inkluderer informasjon som beskriver hvorvidt landet er anerkjent som et land eller ikke. I tillegg ser vi blant annet også hvilken region/verdensdel det tilhører, levestandard, FN-tilhørighet og lokasjon.</p>
 </div>
 <div id="oppgave-3" class="section level1">
 <h1>Oppgave 3</h1>
-<p>Denne filen inneholder kort informasjon om hvilke områder som er definert som FN-regioner.</p>
+<p>Filen <em>ddf–entities–geo–un_sdg_region.csv</em> inneholder kort informasjon om hvilke områder som er definert som FN-regioner.</p>
 </div>
 <div id="oppgave-4" class="section level1">
 <h1>Oppgave 4</h1>
@@ -379,6 +379,8 @@ code span.ot { color: #007020; }
 <span id="cb30-2"><a href="#cb30-2"></a><span class="st">  </span><span class="kw">left_join</span>(gdp_pc, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span> =<span class="st"> &quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> =<span class="st"> &quot;time&quot;</span>))</span>
 <span id="cb30-3"><a href="#cb30-3"></a></span>
 <span id="cb30-4"><a href="#cb30-4"></a><span class="kw">rm</span>(gdp_pc)</span></code></pre></div>
+<p>I oppgave 10, 11 og 12 har vi koblet sammen 3 datasett inn i <em>g_c</em>-datasettet for å slå sammen informasjon om total populasjon, urban populasjon og GDP som vi skal bruke videre.</p>
+<p>Under har vi en oversikt over de nye variablene i datasettet <em>g_c</em>.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">names</span>(g_c)</span></code></pre></div>
 <pre><code>##  [1] &quot;country&quot;                            &quot;name&quot;                              
 ##  [3] &quot;iso3166_1_alpha3&quot;                   &quot;main_religion_2008&quot;                
@@ -394,6 +396,7 @@ code span.ot { color: #007020; }
 <span id="cb33-2"><a href="#cb33-2"></a><span class="st">  </span><span class="kw">rename</span>(<span class="st">&quot;lifeExp&quot;</span> =<span class="st"> &quot;life_expectancy_years&quot;</span>) <span class="op">%&gt;%</span></span>
 <span id="cb33-3"><a href="#cb33-3"></a><span class="st">  </span><span class="kw">rename</span>(<span class="st">&quot;pop&quot;</span> =<span class="st"> &quot;population_total&quot;</span>) <span class="op">%&gt;%</span></span>
 <span id="cb33-4"><a href="#cb33-4"></a><span class="st">  </span><span class="kw">rename</span>(<span class="st">&quot;gdpPercap&quot;</span> =<span class="st"> &quot;gdppercapita_us_inflation_adjusted&quot;</span>)</span></code></pre></div>
+<p>Her har vi gitt nytt navn til 3 variabler, slik at de har samme navn som i <em>gapminder</em>-datasettet.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>t1 &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">seq</span>(<span class="dv">1962</span>, <span class="dv">2017</span>, <span class="dt">by =</span> <span class="dv">5</span>), <span class="st">&quot;01-01&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;-&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">parse_date</span>(<span class="dt">format =</span> <span class="st">&quot;%Y-%m-%d&quot;</span>)</span>
 <span id="cb34-2"><a href="#cb34-2"></a></span>
 <span id="cb34-3"><a href="#cb34-3"></a>my_gapminder &lt;-<span class="st"> </span>g_c <span class="op">%&gt;%</span></span>
@@ -403,6 +406,7 @@ code span.ot { color: #007020; }
 <span id="cb34-7"><a href="#cb34-7"></a></span>
 <span id="cb34-8"><a href="#cb34-8"></a><span class="kw">dim</span>(my_gapminder)</span></code></pre></div>
 <pre><code>## [1] 2262    6</code></pre>
+<p>Etter å ha trimmet datasettet ved å filtrere årstallene til å kun inneholde hvert 5. år i perioden 1962 til 2017, kommer vi nå frem til at vi har 2262 observasjoner fordelt på 6 variabler.</p>
 </div>
 <div id="oppgave-14" class="section level1">
 <h1>Oppgave 14</h1>
@@ -413,6 +417,8 @@ code span.ot { color: #007020; }
 <span id="cb36-5"><a href="#cb36-5"></a></span>
 <span id="cb36-6"><a href="#cb36-6"></a><span class="kw">length</span>(<span class="kw">unique</span>(my_gapminder_<span class="dv">1962</span><span class="op">$</span>country))</span></code></pre></div>
 <pre><code>## [1] 90</code></pre>
+<p>Vi ser her at det kun er 90 land som har data for <em>gdpPercap</em> i året 1962.</p>
+<p>Under viser vi fordelingen av disse 90 landene, fordelt per kontinent.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>my_gapminder_<span class="dv">1962</span> <span class="op">%&gt;%</span></span>
 <span id="cb38-2"><a href="#cb38-2"></a><span class="kw">distinct</span>(country, continent) <span class="op">%&gt;%</span></span>
 <span id="cb38-3"><a href="#cb38-3"></a><span class="kw">group_by</span>(continent) <span class="op">%&gt;%</span></span>

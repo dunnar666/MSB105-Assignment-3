@@ -23,7 +23,7 @@ options(scipen = 999)
 
 # Oppgave 1
 
-Filen som heter *ddf--entities--geo-country.csv* er en ren tekstfil uten dataverdier. Den inneholder kun beskrivelser av forskjellige variabler. Eksempelvis populasjonsforhold, som dødsårsaker, sykdomsforhold (HIV, tuberkulose, etc.), arbeidsforhold (ledighet, yrkesaktive), aldersgrupper). Videre er det forskjellige variabler som beskriver lands økonomiske forhold (BNP, landbruk, støtte, osv.)
+Filen som heter *ddf--concepts.csv* er en ren tekstfil uten dataverdier. Den inneholder kun beskrivelser av forskjellige variabler. Eksempelvis populasjonsforhold, som dødsårsaker, sykdomsforhold (HIV, tuberkulose, etc.), arbeidsforhold (ledighet, yrkesaktive), aldersgrupper). Videre er det forskjellige variabler som beskriver lands økonomiske forhold (BNP, landbruk, støtte, osv.)
 
 Kolonnene består av forskjellige beskrivelser, i form av kortere og lengre tekst/nøkkelord.
 
@@ -31,11 +31,11 @@ Hver av de 596 variablene har korresponderende filer som inneholder data.
 
 # Oppgave 2
 
-Filen *ddf--entities--geo--country* inneholder kort beskrivelse av alle verdens land og stater. Dette inkluderer informasjon som beskriver hvorvidt landet er anerkjent som et land eller ikke. I tillegg ser vi blant annet også hvilken region/verdensdel det tilhører, levestandard, FN-tilhørighet og lokasjon.
+Filen *ddf--entities--geo--country.csv* inneholder kort beskrivelse av alle verdens land og stater. Dette inkluderer informasjon som beskriver hvorvidt landet er anerkjent som et land eller ikke. I tillegg ser vi blant annet også hvilken region/verdensdel det tilhører, levestandard, FN-tilhørighet og lokasjon.
 
 # Oppgave 3
 
-Denne filen inneholder kort informasjon om hvilke områder som er definert som FN-regioner.
+Filen *ddf--entities--geo--un_sdg_region.csv* inneholder kort informasjon om hvilke områder som er definert som FN-regioner.
 
 # Oppgave 4
 
@@ -188,6 +188,10 @@ g_c <- g_c %>%
 rm(gdp_pc)
 ```
 
+I oppgave 10, 11 og 12 har vi koblet sammen 3 datasett inn i *g_c*-datasettet for å slå sammen informasjon om total populasjon, urban populasjon og GDP som vi skal bruke videre. 
+
+Under har vi en oversikt over de nye variablene i datasettet *g_c*.
+
 ```{r names_g_c}
 names(g_c)
 ```
@@ -201,6 +205,8 @@ g_c <- g_c %>%
   rename("gdpPercap" = "gdppercapita_us_inflation_adjusted")
 ```
 
+Her har vi gitt nytt navn til 3 variabler, slik at de har samme navn som i *gapminder*-datasettet. 
+
 ```{r my_gapminder}
 t1 <- paste(seq(1962, 2017, by = 5), "01-01", sep = "-") %>% parse_date(format = "%Y-%m-%d")
 
@@ -211,6 +217,8 @@ my_gapminder <- g_c %>%
 
 dim(my_gapminder)
 ```
+
+Etter å ha trimmet datasettet ved å filtrere årstallene til å kun inneholde hvert 5. år i perioden 1962 til 2017, kommer vi nå frem til at vi har 2262 observasjoner fordelt på 6 variabler.
 
 # Oppgave 14
 
@@ -224,14 +232,24 @@ length(unique(my_gapminder_1962$country))
 
 ```
 
+Vi ser her at det kun er 90 land som har data for *gdpPercap* i året 1962.
+
+Under viser vi fordelingen av disse 90 landene, fordelt per kontinent.
+
 ```{r continent_1962}
 my_gapminder_1962 %>%
 distinct(country, continent) %>%
 group_by(continent) %>%
 count() %>%
 kable()
+```
+
+
+```{r}
 
 ```
+
+
 
 # Oppgave 15
 
@@ -334,4 +352,7 @@ ggplot(my_gapminder_2017 ,
 
 # Oppgave 17
 
-Vi kan se at forventet levealder har økt jevnt siden 1962, spesielt kan vi se at Asia har hatt en signifikant økning i levealder. Brutto nasjonal produkt kan vi også se har stort sett hatt en økning på kontinentene. Europa har høyest BNP og har hatt veldig jevn vekst. Vi kan også se at Asia har hatt høyest økning i BNP, men også levealder. 
+Vi kan se at forventet levealder har økt jevnt siden 1962, spesielt kan vi se at Asia har hatt en signifikant økning i levealder. 
+Brutto nasjonal produkt kan vi også se har stort sett hatt en økning på kontinentene. 
+Europa har høyest BNP og har hatt veldig jevn vekst. 
+Vi kan også se at Asia har hatt høyest økning i BNP, men også levealder. 
