@@ -214,7 +214,7 @@ dim(my_gapminder)
 
 # Oppgave 14
 
-```{r}
+```{r country_1962}
 my_gapminder_1962 <- my_gapminder %>%
   group_by(country) %>% 
   filter(!is.na(gdpPercap)) %>%
@@ -224,7 +224,7 @@ length(unique(my_gapminder_1962$country))
 
 ```
 
-```{r}
+```{r continent_1962}
 my_gapminder_1962 %>%
 distinct(country, continent) %>%
 group_by(continent) %>%
