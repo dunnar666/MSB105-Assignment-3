@@ -341,7 +341,9 @@ code span.ot { color: #007020; }
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, name, iso3166_1_alpha3, main_religion_2008, un_sdg_region, world_4region, continent, world_6region) <span class="sc">%&gt;%</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(lifeExp, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(<span class="fu">is.na</span>(year) <span class="sc">&amp;</span> <span class="fu">is.na</span>(life_expectancy_years))) <span class="sc">%&gt;%</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&lt;</span> <span class="st">&quot;2020-01-01&quot;</span>)</span></code></pre></div>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&lt;</span> <span class="st">&quot;2020-01-01&quot;</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(lifeExp)</span></code></pre></div>
 </div>
 <div id="oppgave-9" class="section level1">
 <h1>Oppgave 9</h1>
@@ -384,29 +386,36 @@ code span.ot { color: #007020; }
 ## 1 Andorra         
 ## 2 Dominica        
 ## 3 Marshall Islands</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(g_c_min)</span></code></pre></div>
 <p>Her kommer vi frem til at de tre landene som kun har observasjoner fra 1970 er; <em>Andorra</em>, <em>Dominica</em> og <em>Marshall Islands</em>.</p>
 </div>
 <div id="oppgave-10" class="section level1">
 <h1>Oppgave 10</h1>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv&quot;</span>, </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pop, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv&quot;</span>, </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pop, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(pop)</span></code></pre></div>
 </div>
 <div id="oppgave-11" class="section level1">
 <h1>Oppgave 11</h1>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>u_pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--urban_population--by--geo--time.csv&quot;</span>, </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(u_pop, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>u_pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--urban_population--by--geo--time.csv&quot;</span>, </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(u_pop, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(u_pop)</span></code></pre></div>
 </div>
 <div id="oppgave-12" class="section level1">
 <h1>Oppgave 12</h1>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>gdp_pc <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv&quot;</span>, </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gdp_pc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(g_c)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gdp_pc <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/ddf--gapminder--systema_globalis-master/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv&quot;</span>, </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">time =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gdp_pc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo&quot;</span>, <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;time&quot;</span>))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gdp_pc)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(g_c)</span></code></pre></div>
 <pre><code>##  [1] &quot;country&quot;                            &quot;name&quot;                              
 ##  [3] &quot;iso3166_1_alpha3&quot;                   &quot;main_religion_2008&quot;                
 ##  [5] &quot;un_sdg_region&quot;                      &quot;world_4region&quot;                     
@@ -417,15 +426,64 @@ code span.ot { color: #007020; }
 </div>
 <div id="oppgave-13" class="section level1">
 <h1>Oppgave 13</h1>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;lifeExp&quot;</span> <span class="ot">=</span> <span class="st">&quot;life_expectancy_years&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;pop&quot;</span> <span class="ot">=</span> <span class="st">&quot;population_total&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;gdpPercap&quot;</span> <span class="ot">=</span> <span class="st">&quot;gdppercapita_us_inflation_adjusted&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>my_gapminder_1962 <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, continent, year, lifeExp, pop, gdpPercap)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>g_c <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;lifeExp&quot;</span> <span class="ot">=</span> <span class="st">&quot;life_expectancy_years&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;pop&quot;</span> <span class="ot">=</span> <span class="st">&quot;population_total&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;gdpPercap&quot;</span> <span class="ot">=</span> <span class="st">&quot;gdppercapita_us_inflation_adjusted&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">seq</span>(<span class="dv">1962</span>, <span class="dv">2017</span>, <span class="at">by =</span> <span class="dv">5</span>), <span class="st">&quot;01-01&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">parse_date</span>(<span class="at">format =</span> <span class="st">&quot;%Y-%m-%d&quot;</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>my_gapminder <span class="ot">&lt;-</span> g_c <span class="sc">%&gt;%</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> t1) <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, continent, year, lifeExp, pop, gdpPercap) <span class="sc">%&gt;%</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;country&quot;</span> <span class="ot">=</span> <span class="st">&quot;name&quot;</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(my_gapminder)</span></code></pre></div>
+<pre><code>## [1] 2262    6</code></pre>
 </div>
 <div id="oppgave-14" class="section level1">
 <h1>Oppgave 14</h1>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>my_gapminder_1962 <span class="ot">&lt;-</span> my_gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(gdpPercap)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">&quot;1962-01-01&quot;</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(my_gapminder_1962<span class="sc">$</span>country))</span></code></pre></div>
+<pre><code>## [1] 90</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>my_gapminder_1962 <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">distinct</span>(country, continent) <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(continent) <span class="sc">%&gt;%</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">continent</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Africa</td>
+<td align="right">30</td>
+</tr>
+<tr class="even">
+<td align="left">Americas</td>
+<td align="right">25</td>
+</tr>
+<tr class="odd">
+<td align="left">Asia</td>
+<td align="right">17</td>
+</tr>
+<tr class="even">
+<td align="left">Europe</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td align="left">Oceania</td>
+<td align="right">3</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="oppgave-15" class="section level1">
 <h1>Oppgave 15</h1>

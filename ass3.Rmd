@@ -11,7 +11,7 @@ output:
     toc: TRUE
 ---
 
-```{r setup, message=FALSE, echo=FALSE, cache=TRUE}
+```{r setup, message=FALSE, echo=FALSE}
 library(readr)
 library(tibble)
 library(prettydoc)
@@ -105,7 +105,6 @@ g_c <- g_c %>%
 rm(lifeExp)
 ```
 
-
 # Oppgave 9
 
 ```{r year_min, message=FALSE}
@@ -117,8 +116,7 @@ g_c_min %>%
   count(min_year = g_c_min$min_year)
 ```
 
-Over har vi benyttet *count*-funksjonen til å telle opp antallet observasjoner rangert etter tidligste år.
-Vi finner to årstall, 1800 og 1970, med henholdsvis 186 og 3 observasjoner.
+Over har vi benyttet *count*-funksjonen til å telle opp antallet observasjoner rangert etter tidligste år. Vi finner to årstall, 1800 og 1970, med henholdsvis 186 og 3 observasjoner.
 
 Under får vi samme oversikten ved hjelp av *table*-funksjonen.
 
@@ -162,7 +160,6 @@ g_c <- g_c %>%
 rm(pop)
 ```
 
-
 # Oppgave 11
 
 ```{r u_pop}
@@ -176,7 +173,6 @@ g_c <- g_c %>%
 
 rm(u_pop)
 ```
-
 
 # Oppgave 12
 
@@ -205,8 +201,6 @@ g_c <- g_c %>%
   rename("gdpPercap" = "gdppercapita_us_inflation_adjusted")
 ```
 
-
-
 ```{r my_gapminder}
 t1 <- paste(seq(1962, 2017, by = 5), "01-01", sep = "-") %>% parse_date(format = "%Y-%m-%d")
 
@@ -218,20 +212,29 @@ my_gapminder <- g_c %>%
 dim(my_gapminder)
 ```
 
-
-
 # Oppgave 14
 
+```{r}
+my_gapminder_1962 <- my_gapminder %>%
+  group_by(country) %>% 
+  filter(!is.na(gdpPercap)) %>%
+  filter(year == "1962-01-01")
 
+length(unique(my_gapminder_1962$country))
+
+```
+
+```{r}
+my_gapminder_1962 %>%
+distinct(country, continent) %>%
+group_by(continent) %>%
+count() %>%
+kable()
+
+```
 
 # Oppgave 15
 
-
-
 # Oppgave 16
 
-
-
 # Oppgave 17
-
-
