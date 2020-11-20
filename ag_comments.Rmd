@@ -4,3 +4,9 @@ output: html_notebook
 ---
 
 # Kommentarer
+
+Documentet kjørte uten noen problemer, dere har ryddet opp i grener som ikke lengre trengs, koden er oversiktlig og fin og det har blitt et vakkert dokument. Dere har også navngitt de ulike code-chunkene. Godt gjort!
+
+Eneste lille tipset jeg har er at dere kan bruke linjeskift i lange R kommandoer slik at de ikke går utenfor høyre marg. Linjeskift etter komma som skiller argumenter fungerer spesielt bra.
+
+arnstein
